@@ -1,0 +1,23 @@
+
+> sbms-backend@0.0.1 build
+> nest build
+
+[96msrc/app.module.ts[0m:[93m6[0m:[93m31[0m - [91merror[0m[90m TS2307: [0mCannot find module './prisma/prisma.service' or its corresponding type declarations.
+
+[7m6[0m import { PrismaService } from './prisma/prisma.service';
+[7m [0m [91m                              ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/app.module.ts[0m:[93m7[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './auth/auth.module' or its corresponding type declarations.
+
+[7m7[0m import { AuthModule } from './auth/auth.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/app.module.ts[0m:[93m8[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/user/user.module' or its corresponding type declarations.
+
+[7m8[0m import { UserModule } from './global/user/user.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/app.module.ts[0m:[93m9[0m:[93m34[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/department/department.module' or its corresponding type declarations.
+
+[7m9[0m import { DepartmentModule } from './global/department/department.module';
+[7m [0m [91m                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+Found 4 error(s).
+

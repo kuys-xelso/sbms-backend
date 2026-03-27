@@ -1,0 +1,14 @@
+import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
+import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
+import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
+export declare class AdminUpdateInput {
+    id?: StringFieldUpdateOperationsInput;
+    email?: StringFieldUpdateOperationsInput;
+    username?: StringFieldUpdateOperationsInput;
+    hashedPassword?: StringFieldUpdateOperationsInput;
+    hashedRefreshToken?: NullableStringFieldUpdateOperationsInput;
+    firstName?: NullableStringFieldUpdateOperationsInput;
+    lastName?: NullableStringFieldUpdateOperationsInput;
+    createdAt?: DateTimeFieldUpdateOperationsInput;
+    updatedAt?: DateTimeFieldUpdateOperationsInput;
+}

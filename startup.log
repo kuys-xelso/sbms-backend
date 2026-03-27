@@ -1,0 +1,247 @@
+
+> sbms-backend@0.0.1 start:dev
+> nest start --watch
+
+[2J[3J[H[[90m3:12:47 PM[0m] Starting compilation in watch mode...
+
+[[90m3:12:52 PM[0m] Found 0 errors. Watching for file changes.
+
+(node:25844) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[32m[Nest] 4444  - [39m03/13/2026, 3:12:54 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 4444  - [39m03/13/2026, 3:12:54 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +34ms[39m
+[32m[Nest] 4444  - [39m03/13/2026, 3:12:54 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 4444  - [39m03/13/2026, 3:12:54 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUserModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 4444  - [39m03/13/2026, 3:12:54 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDepartmentModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 4444  - [39m03/13/2026, 3:12:54 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mGraphQLSchemaBuilderModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 4444  - [39m03/13/2026, 3:12:54 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mGraphQLModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 4444  - [39m03/13/2026, 3:12:54 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +5ms[39m
+[32m[Nest] 4444  - [39m03/13/2026, 3:12:54 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 4444  - [39m03/13/2026, 3:12:54 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\utils\reflection.utilts.js:17
+            throw new undefined_type_error_1.UndefinedTypeError((0, lodash_1.get)(prototype, 'constructor.name'), propertyKey, index);
+                  ^
+
+UndefinedTypeError: Undefined type error. Make sure you are providing an explicit type for the "hashedRefreshToken" of the "User" class.
+    at reflectTypeFromMetadata (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\utils\reflection.utilts.js:17:19)
+    at applyMetadataFn (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\decorators\field.decorator.js:31:107)
+    at singleCallFunctionWrapper (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\schema-builder\storages\lazy-metadata.storage.js:67:13)
+    at D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\schema-builder\storages\lazy-metadata.storage.js:41:44
+    at Array.forEach (<anonymous>)
+    at LazyMetadataStorageHost.load (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\schema-builder\storages\lazy-metadata.storage.js:41:26)
+    at GraphQLSchemaFactory.create (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\schema-builder\graphql-schema.factory.js:35:53)
+    at GraphQLSchemaBuilder.generateSchema (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\graphql-schema.builder.js:38:52)
+    at GraphQLSchemaBuilder.build (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\graphql-schema.builder.js:22:31)
+    at GraphQLFactory.generateSchema (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\graphql.factory.js:28:69)
+
+Node.js v24.13.1
+[2J[3J[H[[90m3:23:17 PM[0m] File change detected. Starting incremental compilation...
+
+[[90m3:23:17 PM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 9432  - [39m03/13/2026, 3:23:20 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 9432  - [39m03/13/2026, 3:23:20 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +89ms[39m
+[32m[Nest] 9432  - [39m03/13/2026, 3:23:20 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9432  - [39m03/13/2026, 3:23:20 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUserModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 9432  - [39m03/13/2026, 3:23:20 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDepartmentModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9432  - [39m03/13/2026, 3:23:20 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mGraphQLSchemaBuilderModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9432  - [39m03/13/2026, 3:23:20 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mGraphQLModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9432  - [39m03/13/2026, 3:23:20 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +9ms[39m
+[32m[Nest] 9432  - [39m03/13/2026, 3:23:20 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 9432  - [39m03/13/2026, 3:23:20 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\utils\reflection.utilts.js:17
+            throw new undefined_type_error_1.UndefinedTypeError((0, lodash_1.get)(prototype, 'constructor.name'), propertyKey, index);
+                  ^
+
+UndefinedTypeError: Undefined type error. Make sure you are providing an explicit type for the "hashedRefreshToken" of the "User" class.
+    at reflectTypeFromMetadata (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\utils\reflection.utilts.js:17:19)
+    at applyMetadataFn (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\decorators\field.decorator.js:31:107)
+    at singleCallFunctionWrapper (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\schema-builder\storages\lazy-metadata.storage.js:67:13)
+    at D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\schema-builder\storages\lazy-metadata.storage.js:41:44
+    at Array.forEach (<anonymous>)
+    at LazyMetadataStorageHost.load (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\schema-builder\storages\lazy-metadata.storage.js:41:26)
+    at GraphQLSchemaFactory.create (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\schema-builder\graphql-schema.factory.js:35:53)
+    at GraphQLSchemaBuilder.generateSchema (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\graphql-schema.builder.js:38:52)
+    at GraphQLSchemaBuilder.build (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\graphql-schema.builder.js:22:31)
+    at GraphQLFactory.generateSchema (D:\vscode\sbms-backend\node_modules\@nestjs\graphql\dist\graphql.factory.js:28:69)
+
+Node.js v24.13.1
+[2J[3J[H[[90m3:24:06 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/app.module.ts[0m:[93m6[0m:[93m31[0m - [91merror[0m[90m TS2307: [0mCannot find module './prisma/prisma.service' or its corresponding type declarations.
+
+[7m6[0m import { PrismaService } from './prisma/prisma.service';
+[7m [0m [91m                              ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m7[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './auth/auth.module' or its corresponding type declarations.
+
+[7m7[0m import { AuthModule } from './auth/auth.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m8[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/user/user.module' or its corresponding type declarations.
+
+[7m8[0m import { UserModule } from './global/user/user.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m9[0m:[93m34[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/department/department.module' or its corresponding type declarations.
+
+[7m9[0m import { DepartmentModule } from './global/department/department.module';
+[7m [0m [91m                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[[90m3:24:07 PM[0m] Found 4 errors. Watching for file changes.
+
+[2J[3J[H[[90m3:36:49 PM[0m] File change detected. Starting incremental compilation...
+
+[96mprisma/seed.ts[0m:[93m8[0m:[93m16[0m - [91merror[0m[90m TS2339: [0mProperty 'user' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+
+[7m8[0m   await prisma.user.upsert({
+[7m [0m [91m               ~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m6[0m:[93m31[0m - [91merror[0m[90m TS2307: [0mCannot find module './prisma/prisma.service' or its corresponding type declarations.
+
+[7m6[0m import { PrismaService } from './prisma/prisma.service';
+[7m [0m [91m                              ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m7[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './auth/auth.module' or its corresponding type declarations.
+
+[7m7[0m import { AuthModule } from './auth/auth.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m8[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/user/user.module' or its corresponding type declarations.
+
+[7m8[0m import { UserModule } from './global/user/user.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m9[0m:[93m34[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/department/department.module' or its corresponding type declarations.
+
+[7m9[0m import { DepartmentModule } from './global/department/department.module';
+[7m [0m [91m                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[[90m3:36:50 PM[0m] Found 5 errors. Watching for file changes.
+
+[2J[3J[H[[90m3:36:51 PM[0m] File change detected. Starting incremental compilation...
+
+[96mprisma/seed.ts[0m:[93m8[0m:[93m16[0m - [91merror[0m[90m TS2339: [0mProperty 'user' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+
+[7m8[0m   await prisma.user.upsert({
+[7m [0m [91m               ~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m6[0m:[93m31[0m - [91merror[0m[90m TS2307: [0mCannot find module './prisma/prisma.service' or its corresponding type declarations.
+
+[7m6[0m import { PrismaService } from './prisma/prisma.service';
+[7m [0m [91m                              ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m7[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './auth/auth.module' or its corresponding type declarations.
+
+[7m7[0m import { AuthModule } from './auth/auth.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m8[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/user/user.module' or its corresponding type declarations.
+
+[7m8[0m import { UserModule } from './global/user/user.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m9[0m:[93m34[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/department/department.module' or its corresponding type declarations.
+
+[7m9[0m import { DepartmentModule } from './global/department/department.module';
+[7m [0m [91m                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[[90m3:36:53 PM[0m] Found 5 errors. Watching for file changes.
+
+[2J[3J[H[[90m3:37:15 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/app.module.ts[0m:[93m6[0m:[93m31[0m - [91merror[0m[90m TS2307: [0mCannot find module './prisma/prisma.service' or its corresponding type declarations.
+
+[7m6[0m import { PrismaService } from './prisma/prisma.service';
+[7m [0m [91m                              ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m7[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './auth/auth.module' or its corresponding type declarations.
+
+[7m7[0m import { AuthModule } from './auth/auth.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m8[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/user/user.module' or its corresponding type declarations.
+
+[7m8[0m import { UserModule } from './global/user/user.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m9[0m:[93m34[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/department/department.module' or its corresponding type declarations.
+
+[7m9[0m import { DepartmentModule } from './global/department/department.module';
+[7m [0m [91m                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[[90m3:37:15 PM[0m] Found 4 errors. Watching for file changes.
+
+[2J[3J[H[[90m3:41:44 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/app.module.ts[0m:[93m6[0m:[93m31[0m - [91merror[0m[90m TS2307: [0mCannot find module './prisma/prisma.service' or its corresponding type declarations.
+
+[7m6[0m import { PrismaService } from './prisma/prisma.service';
+[7m [0m [91m                              ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m7[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './auth/auth.module' or its corresponding type declarations.
+
+[7m7[0m import { AuthModule } from './auth/auth.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m8[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/user/user.module' or its corresponding type declarations.
+
+[7m8[0m import { UserModule } from './global/user/user.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m9[0m:[93m34[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/department/department.module' or its corresponding type declarations.
+
+[7m9[0m import { DepartmentModule } from './global/department/department.module';
+[7m [0m [91m                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[[90m3:41:44 PM[0m] Found 4 errors. Watching for file changes.
+
+[2J[3J[H[[90m3:44:22 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/app.module.ts[0m:[93m6[0m:[93m31[0m - [91merror[0m[90m TS2307: [0mCannot find module './prisma/prisma.service' or its corresponding type declarations.
+
+[7m6[0m import { PrismaService } from './prisma/prisma.service';
+[7m [0m [91m                              ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m7[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './auth/auth.module' or its corresponding type declarations.
+
+[7m7[0m import { AuthModule } from './auth/auth.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m8[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/user/user.module' or its corresponding type declarations.
+
+[7m8[0m import { UserModule } from './global/user/user.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m9[0m:[93m34[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/department/department.module' or its corresponding type declarations.
+
+[7m9[0m import { DepartmentModule } from './global/department/department.module';
+[7m [0m [91m                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[[90m3:44:22 PM[0m] Found 4 errors. Watching for file changes.
+
+[2J[3J[H[[90m3:45:13 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/app.module.ts[0m:[93m6[0m:[93m31[0m - [91merror[0m[90m TS2307: [0mCannot find module './prisma/prisma.service' or its corresponding type declarations.
+
+[7m6[0m import { PrismaService } from './prisma/prisma.service';
+[7m [0m [91m                              ~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m7[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './auth/auth.module' or its corresponding type declarations.
+
+[7m7[0m import { AuthModule } from './auth/auth.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m8[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/user/user.module' or its corresponding type declarations.
+
+[7m8[0m import { UserModule } from './global/user/user.module';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app.module.ts[0m:[93m9[0m:[93m34[0m - [91merror[0m[90m TS2307: [0mCannot find module './global/department/department.module' or its corresponding type declarations.
+
+[7m9[0m import { DepartmentModule } from './global/department/department.module';
+[7m [0m [91m                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[[90m3:45:13 PM[0m] Found 4 errors. Watching for file changes.
+
+^C

@@ -1,0 +1,18 @@
+PrismaClientKnownRequestError: 
+Invalid `prisma.admin.upsert()` invocation in
+D:\vscode\sbms-backend\prisma\seed.ts:8:22
+
+  5 
+  6 async function main() {
+  7   const password = await argon2.hash('password');
+→ 8   await prisma.admin.upsert(
+The table `public.admin` does not exist in the current database.
+    at Zn.handleRequestError (D:\vscode\sbms-backend\node_modules\@prisma\client\runtime\library.js:121:7459)
+    at Zn.handleAndLogRequestError (D:\vscode\sbms-backend\node_modules\@prisma\client\runtime\library.js:121:6784)
+    at Zn.request (D:\vscode\sbms-backend\node_modules\@prisma\client\runtime\library.js:121:6491)
+    at async l (D:\vscode\sbms-backend\node_modules\@prisma\client\runtime\library.js:130:9778)
+    at async main (D:\vscode\sbms-backend\prisma\seed.ts:8:3) {
+  code: 'P2021',
+  meta: { modelName: 'Admin', table: 'public.admin' },
+  clientVersion: '6.9.0'
+}
