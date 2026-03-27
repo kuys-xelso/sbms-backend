@@ -10,24 +10,34 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
 const apollo_1 = require("@nestjs/apollo");
+const default_1 = require("@apollo/server/plugin/landingPage/default");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const app_resolver_1 = require("./app.resolver");
 const prisma_module_1 = require("./prisma/prisma.module");
 const path_1 = require("path");
+const config_1 = require("@nestjs/config");
+const auth_module_1 = require("./auth/auth.module");
+const user_module_1 = require("./global/user/user.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            config_1.ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
             graphql_1.GraphQLModule.forRoot({
                 driver: apollo_1.ApolloDriver,
                 autoSchemaFile: (0, path_1.join)(process.cwd(), 'src/schema.gql'),
+                context: ({ req }) => ({ req }),
                 sortSchema: true,
-                playground: true,
+                playground: false,
+                introspection: true,
+                plugins: [(0, default_1.ApolloServerPluginLandingPageLocalDefault)()],
             }),
             prisma_module_1.PrismaModule,
+            auth_module_1.AuthModule,
+            user_module_1.UserModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService, app_resolver_1.AppResolver],

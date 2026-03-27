@@ -46,7 +46,7 @@
     "sequential-ids": "^0.0.0"
   },
   "prisma": {
-    "schema": "prisma/schema",
+    "schema": "prisma/schema/schema.prisma",
     "seed": "ts-node prisma/seed.ts"
   },
   "devDependencies": {

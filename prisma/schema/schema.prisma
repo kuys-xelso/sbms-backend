@@ -6,7 +6,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["multiSchema", "prismaSchemaFolder"]
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
@@ -15,9 +15,82 @@ datasource db {
   schemas  = ["public", "global"]
 }
 
-generator nestgraphql {
-  provider               = "node node_modules/prisma-nestjs-graphql"
-  output                 = "../../src/@generated"
-  fields_Validator_from  = "class-validator"
-  fields_Validator_input = true
+enum UserRole {
+  USER
+  ADMIN
+
+  @@schema("public")
+}
+
+model User {
+  id String @id @default(cuid())
+
+  email     String  @unique
+  firstName String
+  lastName  String?
+
+  hashedPassword String @map("hashed_password")
+
+  role UserRole @default(USER)
+
+  profile Profile?
+  tickets Ticket[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+  @@schema("public")
+}
+
+model Profile {
+  id String @id @default(cuid())
+
+  phone  String?
+  bio    String?
+  avatar String?
+
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id])
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("profiles")
+  @@schema("public")
+}
+
+model Department {
+  id String @id @default(cuid())
+
+  name        String  @unique
+  description String?
+
+  profiles Profile[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("departments")
+  @@schema("public")
+}
+
+model Ticket {
+  id String @id @default(cuid())
+
+  title       String
+  description String
+  priority    String @default("MEDIUM")
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("tickets")
+  @@schema("public")
 }
