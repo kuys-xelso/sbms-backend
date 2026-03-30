@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { UserRole } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
@@ -23,5 +24,35 @@ export class UserService {
       take: options.take,
       orderBy: { createdAt: 'desc' },
     });
+  }
+
+  async updateUser(
+    id: string,
+    data: {
+      firstName?: string;
+      lastName?: string;
+      role?: UserRole;
+    },
+  ) {
+    await this.getUserById(id);
+
+    return this.prisma.user.update({
+      where: { id },
+      data: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        role: data.role,
+      },
+    });
+  }
+
+  async deleteUser(id: string) {
+    await this.getUserById(id);
+
+    await this.prisma.user.delete({
+      where: { id },
+    });
+
+    return true;
   }
 }

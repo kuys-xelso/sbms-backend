@@ -45,14 +45,19 @@ Features:
 ```graphql
 # A user can authenticate
 mutation {
-  signup(input: {
-    email: "john@example.com"
-    password: "SecurePass123!@"
-    firstName: "John"
-  }) {
+  signup(
+    input: {
+      email: "john@example.com"
+      password: "SecurePass123!@"
+      firstName: "John"
+    }
+  ) {
     accessToken
     refreshToken
-    user { id email }
+    user {
+      id
+      email
+    }
   }
 }
 
@@ -63,16 +68,18 @@ query {
     email
     firstName
     role
-    department { name }
+    department {
+      name
+    }
   }
 }
 
 # Admins can manage users
 mutation {
-  updateUser(id: "123", input: {
-    role: ADMIN
-  }) {
-    id email role
+  updateUser(id: "123", input: { role: ADMIN }) {
+    id
+    email
+    role
   }
 }
 ```
@@ -383,88 +390,88 @@ enum UserRole {
 model User {
   // Primary key
   id               String      @id @default(cuid())  // Unique identifier
-  
+
   // Basic info
   email            String      @unique              // Must be unique
   firstName        String
   lastName         String?                         // ? = optional
-  
+
   // Authentication
   hashedPassword   String
-  
+
   // Authorization
   role             UserRole    @default(USER)      // Default role
-  
+
   // Relationships
   profile          Profile?                        // One-to-one
   tickets          Ticket[]                        // One-to-many
-  
+
   // Metadata
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
-  
+
   @@map("users")              // Database table name
 }
 
 // Profile Model - Extended user information
 model Profile {
   id               String      @id @default(cuid())
-  
+
   // Basic info
   phone            String?
   bio              String?
   avatar           String?     // URL to avatar image
-  
+
   // Department
   departmentId     String
   department       Department  @relation(fields: [departmentId], references: [id])
-  
+
   // Relationship to User
   userId           String      @unique             // Foreign key
   user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   // Metadata
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
-  
+
   @@map("profiles")
 }
 
 // Department Model - User departments
 model Department {
   id               String      @id @default(cuid())
-  
+
   // Basic info
   name             String      @unique
   description      String?
-  
+
   // Relationships
   profiles         Profile[]                       // One-to-many
-  
+
   // Metadata
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
-  
+
   @@map("departments")
 }
 
 // Ticket Model - Support tickets (for business logic)
 model Ticket {
   id               String      @id @default(cuid())
-  
+
   // Content
   title            String
   description      String
   priority         String      @default("MEDIUM")
-  
+
   // Relationships
   userId           String                          // Foreign key
   user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   // Metadata
   createdAt        DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
-  
+
   @@map("tickets")
 }
 ```
@@ -509,15 +516,17 @@ import { PrismaClient } from '@prisma/client';
 
 /**
  * Prisma Service
- * 
+ *
  * This service:
  * 1. Manages Prisma Client connection
  * 2. Provides access to database models
  * 3. Handles connection lifecycle
  */
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
-  
+export class PrismaService
+  extends PrismaClient
+  implements OnModuleInit, OnModuleDestroy
+{
   // Called when module starts
   async onModuleInit() {
     // Connect to database
@@ -544,12 +553,12 @@ import { PrismaService } from './prisma.service';
 
 /**
  * Prisma Module
- * 
+ *
  * Makes PrismaService available to other modules
  */
 @Module({
   providers: [PrismaService],
-  exports: [PrismaService],  // Export so other modules can use it
+  exports: [PrismaService], // Export so other modules can use it
 })
 export class PrismaModule {}
 ```
@@ -567,10 +576,10 @@ import { PrismaModule } from './prisma/prisma.module';
   imports: [
     // Load environment variables
     ConfigModule.forRoot({
-      isGlobal: true,  // Available in all modules
+      isGlobal: true, // Available in all modules
       envFilePath: '.env',
     }),
-    
+
     // Import Prisma
     PrismaModule,
   ],
@@ -619,7 +628,7 @@ import { IsEmail, MinLength, Matches } from 'class-validator';
 
 /**
  * SignUp Input DTO
- * 
+ *
  * Validates user signup data before creating account
  * Ensures:
  * - Email is valid format
@@ -635,16 +644,16 @@ export class SignUpInput {
   @Field()
   @MinLength(8, { message: 'Password must be at least 8 characters' })
   @Matches(/^(?=.*[a-z])/, {
-    message: 'Password must contain lowercase letter'
+    message: 'Password must contain lowercase letter',
   })
   @Matches(/^(?=.*[A-Z])/, {
-    message: 'Password must contain uppercase letter'
+    message: 'Password must contain uppercase letter',
   })
   @Matches(/^(?=.*\d)/, {
-    message: 'Password must contain number'
+    message: 'Password must contain number',
   })
   @Matches(/^(?=.*[!@#$%^&*])/, {
-    message: 'Password must contain special character (!@#$%^&*)'
+    message: 'Password must contain special character (!@#$%^&*)',
   })
   password: string;
 
@@ -685,7 +694,7 @@ import { UserEntity } from '../../global/user/entities/user.entity';
 
 /**
  * Auth Entity
- * 
+ *
  * Response when user signs up or signs in
  * Contains:
  * - Access token (for API requests)
@@ -710,7 +719,11 @@ export class AuthEntity {
 Create `src/auth/auth.service.ts`:
 
 ```typescript
-import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import * as argon2 from 'argon2';
@@ -719,7 +732,7 @@ import { SignInInput } from './dto/signin.input';
 
 /**
  * Authentication Service
- * 
+ *
  * Handles:
  * - User registration (signup)
  * - User login (signin)
@@ -736,7 +749,7 @@ export class AuthService {
 
   /**
    * SIGNUP (User Registration)
-   * 
+   *
    * 1. Validate input (handled by DTO)
    * 2. Check if email already exists
    * 3. Hash password using Argon2
@@ -781,7 +794,7 @@ export class AuthService {
 
   /**
    * SIGNIN (User Login)
-   * 
+   *
    * 1. Validate input
    * 2. Find user by email
    * 3. Verify password using Argon2
@@ -802,7 +815,10 @@ export class AuthService {
     // Verify password
     // Never compare plaintext passwords!
     // Always use argon2.verify()
-    const isPasswordValid = await argon2.verify(user.hashedPassword, input.password);
+    const isPasswordValid = await argon2.verify(
+      user.hashedPassword,
+      input.password,
+    );
 
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid email or password');
@@ -820,11 +836,11 @@ export class AuthService {
 
   /**
    * Generate JWT Tokens
-   * 
+   *
    * Creates:
    * - Access Token: Short-lived token for API requests (1 hour)
    * - Refresh Token: Long-lived token to get new access token (24 hours)
-   * 
+   *
    * JWT Structure: header.payload.signature
    * - Payload contains: userId, email, role
    * - Signature ensures token wasn't tampered with
@@ -836,7 +852,7 @@ export class AuthService {
 
     // Access token payload
     const accessTokenPayload = {
-      sub: user.id,        // subject (user id)
+      sub: user.id, // subject (user id)
       email: user.email,
       role: user.role,
     };
@@ -864,7 +880,7 @@ export class AuthService {
 
   /**
    * Verify Access Token
-   * 
+   *
    * Called by guards to verify token is valid
    * Returns decoded payload if valid
    */
@@ -880,7 +896,7 @@ export class AuthService {
 
   /**
    * Refresh Access Token
-   * 
+   *
    * Takes refresh token and returns new access token
    * Allows user to stay logged in without relogging
    */
@@ -903,7 +919,7 @@ export class AuthService {
         {
           secret: process.env.JWT_SECRET,
           expiresIn: process.env.JWT_EXPIRATION || '1h',
-        }
+        },
       );
 
       return newAccessToken;
@@ -969,7 +985,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 
 /**
  * JWT Strategy for Passport
- * 
+ *
  * Automatically validates JWT tokens on protected routes
  * Extracts user info from token
  */
@@ -979,10 +995,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       // Extract JWT from Authorization header: "Bearer <token>"
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      
+
       // Secret to verify signature
       secretOrKey: process.env.JWT_SECRET,
-      
+
       // Fail if token expired
       ignoreExpiration: false,
     });
@@ -990,7 +1006,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   /**
    * Validate extracted payload
-   * 
+   *
    * Called after JWT is verified as authentic
    * Can do additional business logic here
    */
@@ -1023,7 +1039,7 @@ import { SignInInput } from './dto/signin.input';
 
 /**
  * Auth Resolver
- * 
+ *
  * GraphQL endpoints for authentication
  * Exposes:
  * - signup mutation
@@ -1051,9 +1067,7 @@ export class AuthResolver {
   @Mutation(() => String, {
     description: 'Get new access token using refresh token',
   })
-  async refreshAccessToken(
-    @Args('refreshToken') refreshToken: string,
-  ) {
+  async refreshAccessToken(@Args('refreshToken') refreshToken: string) {
     return this.authService.refreshAccessToken(refreshToken);
   }
 }
@@ -1074,17 +1088,17 @@ import { PrismaModule } from '../prisma/prisma.module';
 
 /**
  * Auth Module
- * 
+ *
  * Contains all authentication logic
  * Provides Auth guards and strategies to other modules
  */
 @Module({
   imports: [
     PrismaModule,
-    
+
     // Passport authentication framework
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    
+
     // JWT token signing
     JwtModule.register({
       secret: process.env.JWT_SECRET,
@@ -1122,9 +1136,9 @@ import { AuthModule } from './auth/auth.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql'),
-      introspection: true,  // Allow schema introspection
-      playground: true,     // GraphQL playground
-      context: ({ req }) => ({ req }),  // Pass request to resolvers
+      introspection: true, // Allow schema introspection
+      playground: true, // GraphQL playground
+      context: ({ req }) => ({ req }), // Pass request to resolvers
     }),
 
     // Database
@@ -1202,13 +1216,13 @@ import { AuthGuard } from '@nestjs/passport';
 
 /**
  * Access Token Guard
- * 
+ *
  * Protects GraphQL resolvers
  * Ensures:
  * 1. Request has Authorization header with JWT token
  * 2. Token is valid and not expired
  * 3. User exists in database
- * 
+ *
  * Usage: @UseGuards(AccessTokenGuard)
  */
 @Injectable()
@@ -1216,7 +1230,7 @@ export class AccessTokenGuard extends AuthGuard('jwt') {
   handleRequest(err, user, info) {
     if (err || !user) {
       throw new UnauthorizedException(
-        'You must be logged in to access this resource'
+        'You must be logged in to access this resource',
       );
     }
 
@@ -1230,16 +1244,21 @@ export class AccessTokenGuard extends AuthGuard('jwt') {
 Create `src/auth/guards/roles.guard.ts`:
 
 ```typescript
-import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
 /**
  * Roles Guard
- * 
+ *
  * Checks if user has required role
  * Works with @Roles() decorator
- * 
+ *
  * Usage: @UseGuards(AccessTokenGuard, RolesGuard) @Roles('ADMIN')
  */
 @Injectable()
@@ -1265,7 +1284,7 @@ export class RolesGuard implements CanActivate {
     // Check if user has required role
     if (!user || !requiredRoles.includes(user.role)) {
       throw new ForbiddenException(
-        `You need ${requiredRoles.join(' or ')} role to access this`
+        `You need ${requiredRoles.join(' or ')} role to access this`,
       );
     }
 
@@ -1283,10 +1302,10 @@ import { SetMetadata } from '@nestjs/common';
 
 /**
  * @Roles() Decorator
- * 
+ *
  * Marks which roles can access a resolver
  * Works with RolesGuard
- * 
+ *
  * Usage: @Roles('ADMIN') or @Roles('ADMIN', 'USER')
  */
 export const Roles = (...roles: string[]) => SetMetadata('roles', roles);
@@ -1302,10 +1321,10 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 
 /**
  * @CurrentUser() Decorator
- * 
+ *
  * Injects current logged-in user into resolver
  * Works with AccessTokenGuard
- * 
+ *
  * Usage: @CurrentUser() user
  */
 export const CurrentUser = createParamDecorator(
@@ -1330,7 +1349,7 @@ enum UserRole {
 
 /**
  * User Entity
- * 
+ *
  * GraphQL type representing a user
  * Defines which fields are exposed in API
  */
@@ -1413,7 +1432,7 @@ import { Roles } from '../../auth/decorators/roles.decorator';
 
 /**
  * User Resolver
- * 
+ *
  * GraphQL endpoints for user management
  * Exposes:
  * - me query (current user)
@@ -1430,7 +1449,7 @@ export class UserResolver {
 
   /**
    * Get Current User
-   * 
+   *
    * Returns logged-in user's information
    * Protected by AccessTokenGuard
    */
@@ -1444,7 +1463,7 @@ export class UserResolver {
 
   /**
    * Get Single User by ID
-   * 
+   *
    * Anyone can fetch another user's public info
    * Full details only visible to admins or the user themselves
    */
@@ -1458,7 +1477,7 @@ export class UserResolver {
 
   /**
    * List All Users
-   * 
+   *
    * Admin only endpoint
    * Returns paginated list of users
    */
@@ -1478,7 +1497,7 @@ export class UserResolver {
 
   /**
    * Update Current User's Profile
-   * 
+   *
    * User can update their own information
    * Protected by AccessTokenGuard
    */
@@ -1499,7 +1518,7 @@ export class UserResolver {
 
   /**
    * Update Any User (Admin Only)
-   * 
+   *
    * Admin can change user roles and other properties
    * Protected by AccessTokenGuard + RolesGuard
    */
@@ -1521,7 +1540,7 @@ export class UserResolver {
 
   /**
    * Delete User (Admin Only)
-   * 
+   *
    * Soft delete user account
    * Protected by AccessTokenGuard + RolesGuard
    */
@@ -1546,7 +1565,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 
 /**
  * User Service
- * 
+ *
  * Contains business logic for user operations
  * - Fetch user data
  * - Update user information
@@ -1888,37 +1907,44 @@ query {
 ## Security Features Implemented
 
 ### ✅ Layer 1: Transport Security
+
 - Use HTTPS in production (configure in nginx/load balancer)
 - Current setup uses plaintext (development only)
 
 ### ✅ Layer 2: Input Validation
+
 - DTO validation (email format, password strength)
 - Type checking via TypeScript
 - Length and pattern matching
 
 ### ✅ Layer 3: Authentication
+
 - Argon2 password hashing (GPU-resistant)
 - JWT tokens with expiration
 - Refresh token rotation
 - Token stored in Authorization header (not localStorage)
 
 ### ✅ Layer 4: Authorization
+
 - Role-based access control (USER, ADMIN)
 - Guards protect GraphQL resolvers
 - @Roles() decorator restricts endpoints
 - @CurrentUser() injects authenticated user
 
 ### ✅ Layer 5: Data Security
+
 - Prisma ORM prevents SQL injection
 - Parameterized queries
 - Foreign key constraints
 
 ### ✅ Layer 6: Error Handling
+
 - No sensitive data in errors
 - Safe error messages to clients
 - Internal logging for debugging
 
 ### ✅ Layer 7: Other Security Measures
+
 - Password validation (8+ chars, uppercase, lowercase, number, special char)
 - Email uniqueness constraint
 - CORS configuration (restrict origins)
@@ -2061,6 +2087,7 @@ docker run -p 3002:3002 \
 ### Issue: "Cannot find module '@nestjs/graphql'"
 
 **Solution:**
+
 ```bash
 npm install @nestjs/graphql @nestjs/apollo apollo-server-express graphql
 npm install --save-dev ts-node typescript
@@ -2069,6 +2096,7 @@ npm install --save-dev ts-node typescript
 ### Issue: "PostgreSQL connection refused"
 
 **Solution:**
+
 ```bash
 # Start PostgreSQL service
 # Windows: Check Services > PostgreSQL Server
@@ -2082,6 +2110,7 @@ cat .env | grep DATABASE_URL
 ### Issue: "JWT Token is invalid"
 
 **Solution:**
+
 ```bash
 # Ensure:
 # 1. Token is in Authorization header: "Bearer <token>"
@@ -2093,6 +2122,7 @@ cat .env | grep DATABASE_URL
 ### Issue: "Cannot find module 'prisma/client'"
 
 **Solution:**
+
 ```bash
 npm install @prisma/client
 
@@ -2103,6 +2133,7 @@ npx prisma generate
 ### Issue: "ValidationException: Validation failed"
 
 **Solution:**
+
 ```bash
 # Ensure class-validator is installed
 npm install class-validator class-transformer
@@ -2163,6 +2194,7 @@ npm install class-validator class-transformer
 ## Resources & References
 
 **Official Docs:**
+
 - [NestJS Documentation](https://docs.nestjs.com)
 - [GraphQL Docs](https://graphql.org/learn/)
 - [Prisma Docs](https://www.prisma.io/docs/)
@@ -2170,11 +2202,13 @@ npm install class-validator class-transformer
 - [OWASP Security](https://owasp.org/www-project-top-ten/)
 
 **YouTube Tutorials:**
+
 - NestJS GraphQL Tutorial by Fireship
 - JWT Authentication Explained
 - Prisma Database Setup Guide
 
 **Community:**
+
 - [NestJS Discord](https://discord.gg/G7Qnnhy)
 - [GraphQL Community Slack](https://graphql.org/community/where-to-get-help/)
 - Stack Overflow (tag: nestjs, graphql)

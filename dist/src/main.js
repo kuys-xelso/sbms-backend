@@ -11,7 +11,7 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.use((0, cookie_parser_1.default)());
     app.enableCors({
-        origin: ['http://localhost:3000'],
+        origin: ['http://localhost:3000', 'https://studio.apollographql.com'],
         credentials: true,
     });
     app.useGlobalPipes(new common_1.ValidationPipe({}));

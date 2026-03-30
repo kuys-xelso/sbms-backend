@@ -9,52 +9,40 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserService = void 0;
+exports.DepartmentService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../prisma/prisma.service");
-let UserService = class UserService {
+let DepartmentService = class DepartmentService {
     prisma;
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async getUserById(id) {
-        const user = await this.prisma.user.findUnique({
-            where: { id },
-        });
-        if (!user) {
-            throw new common_1.NotFoundException(`User with ID ${id} not found`);
-        }
-        return user;
-    }
-    async listUsers(options) {
-        return this.prisma.user.findMany({
-            skip: options.skip,
-            take: options.take,
-            orderBy: { createdAt: 'desc' },
-        });
-    }
-    async updateUser(id, data) {
-        await this.getUserById(id);
-        return this.prisma.user.update({
-            where: { id },
+    async createDepartment(name, description) {
+        return this.prisma.department.create({
             data: {
-                firstName: data.firstName,
-                lastName: data.lastName,
-                role: data.role,
+                name,
+                description,
             },
         });
     }
-    async deleteUser(id) {
-        await this.getUserById(id);
-        await this.prisma.user.delete({
+    async listDepartments() {
+        return this.prisma.department.findMany({
+            orderBy: { name: 'asc' },
+        });
+    }
+    async getDepartmentById(id) {
+        const department = await this.prisma.department.findUnique({
             where: { id },
         });
-        return true;
+        if (!department) {
+            throw new common_1.NotFoundException(`Department with ID ${id} not found`);
+        }
+        return department;
     }
 };
-exports.UserService = UserService;
-exports.UserService = UserService = __decorate([
+exports.DepartmentService = DepartmentService;
+exports.DepartmentService = DepartmentService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService])
-], UserService);
-//# sourceMappingURL=user.service.js.map
+], DepartmentService);
+//# sourceMappingURL=department.service.js.map

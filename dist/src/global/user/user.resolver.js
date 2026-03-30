@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserResolver = void 0;
 const common_1 = require("@nestjs/common");
+const client_1 = require("@prisma/client");
 const graphql_1 = require("@nestjs/graphql");
 const current_user_decorator_1 = require("../../auth/decorators/current-user.decorator");
 const roles_decorator_1 = require("../../auth/decorators/roles.decorator");
@@ -29,8 +30,27 @@ let UserResolver = class UserResolver {
     async me(user) {
         return this.userService.getUserById(user.id);
     }
+    async user(id) {
+        return this.userService.getUserById(id);
+    }
     async users(skip = 0, take = 10) {
         return this.userService.listUsers({ skip, take });
+    }
+    async updateProfile(user, firstName, lastName) {
+        return this.userService.updateUser(user.id, {
+            firstName,
+            lastName,
+        });
+    }
+    async updateUser(id, role, firstName, lastName) {
+        return this.userService.updateUser(id, {
+            firstName,
+            lastName,
+            role,
+        });
+    }
+    async deleteUser(id) {
+        return this.userService.deleteUser(id);
     }
 };
 exports.UserResolver = UserResolver;
@@ -45,6 +65,16 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "me", null);
 __decorate([
+    (0, graphql_1.Query)(() => user_entity_1.UserEntity, {
+        description: 'Get user by ID',
+        nullable: true,
+    }),
+    __param(0, (0, graphql_1.Args)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "user", null);
+__decorate([
     (0, graphql_1.Query)(() => [user_entity_1.UserEntity], {
         description: 'List all users (admin only)',
     }),
@@ -56,6 +86,43 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "users", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => user_entity_1.UserEntity, {
+        description: 'Update current user profile',
+    }),
+    (0, common_1.UseGuards)(access_token_guard_1.AccessTokenGuard),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(1, (0, graphql_1.Args)('firstName', { nullable: true })),
+    __param(2, (0, graphql_1.Args)('lastName', { nullable: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, String]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "updateProfile", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => user_entity_1.UserEntity, {
+        description: 'Update user (admin only)',
+    }),
+    (0, common_1.UseGuards)(access_token_guard_1.AccessTokenGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN'),
+    __param(0, (0, graphql_1.Args)('id')),
+    __param(1, (0, graphql_1.Args)('role', { type: () => client_1.UserRole, nullable: true })),
+    __param(2, (0, graphql_1.Args)('firstName', { nullable: true })),
+    __param(3, (0, graphql_1.Args)('lastName', { nullable: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String, String]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "updateUser", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => Boolean, {
+        description: 'Delete user (admin only)',
+    }),
+    (0, common_1.UseGuards)(access_token_guard_1.AccessTokenGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN'),
+    __param(0, (0, graphql_1.Args)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "deleteUser", null);
 exports.UserResolver = UserResolver = __decorate([
     (0, graphql_1.Resolver)(() => user_entity_1.UserEntity),
     __metadata("design:paramtypes", [user_service_1.UserService])

@@ -10,6 +10,7 @@ import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './global/user/user.module';
+import { DepartmentModule } from './global/department/department.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UserModule } from './global/user/user.module';
     PrismaModule,
     AuthModule,
     UserModule,
+    DepartmentModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
