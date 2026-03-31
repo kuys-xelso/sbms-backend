@@ -10,32 +10,50 @@ export declare class AuthService {
         accessToken: string;
         refreshToken: string;
         user: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
             email: string;
             firstName: string;
             lastName: string | null;
-            id: string;
             hashedPassword: string;
+            hashedRefreshToken: string | null;
             role: import(".prisma/client").$Enums.UserRole;
-            createdAt: Date;
-            updatedAt: Date;
         };
     }>;
     signin(input: SignInInput): Promise<{
         accessToken: string;
         refreshToken: string;
         user: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
             email: string;
             firstName: string;
             lastName: string | null;
-            id: string;
             hashedPassword: string;
+            hashedRefreshToken: string | null;
             role: import(".prisma/client").$Enums.UserRole;
-            createdAt: Date;
-            updatedAt: Date;
         };
     }>;
     verifyAccessToken(token: string): any;
-    refreshAccessToken(refreshToken: string): Promise<string>;
+    refreshAccessToken(refreshToken: string): Promise<{
+        user: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            email: string;
+            firstName: string;
+            lastName: string | null;
+            hashedPassword: string;
+            hashedRefreshToken: string | null;
+            role: import(".prisma/client").$Enums.UserRole;
+        };
+        accessToken: string;
+        refreshToken: string;
+    }>;
+    logout(userId: string): Promise<boolean>;
     private generateTokens;
+    private storeRefreshToken;
     private getRefreshSecret;
 }

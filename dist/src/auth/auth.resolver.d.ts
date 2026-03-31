@@ -8,29 +8,48 @@ export declare class AuthResolver {
         accessToken: string;
         refreshToken: string;
         user: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
             email: string;
             firstName: string;
             lastName: string | null;
-            id: string;
             hashedPassword: string;
+            hashedRefreshToken: string | null;
             role: import(".prisma/client").$Enums.UserRole;
-            createdAt: Date;
-            updatedAt: Date;
         };
     }>;
     signin(input: SignInInput): Promise<{
         accessToken: string;
         refreshToken: string;
         user: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
             email: string;
             firstName: string;
             lastName: string | null;
-            id: string;
             hashedPassword: string;
+            hashedRefreshToken: string | null;
             role: import(".prisma/client").$Enums.UserRole;
-            createdAt: Date;
-            updatedAt: Date;
         };
     }>;
-    refreshAccessToken(refreshToken: string): Promise<string>;
+    refreshAccessToken(refreshToken: string): Promise<{
+        user: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            email: string;
+            firstName: string;
+            lastName: string | null;
+            hashedPassword: string;
+            hashedRefreshToken: string | null;
+            role: import(".prisma/client").$Enums.UserRole;
+        };
+        accessToken: string;
+        refreshToken: string;
+    }>;
+    logout(user: {
+        id: string;
+    }): Promise<boolean>;
 }

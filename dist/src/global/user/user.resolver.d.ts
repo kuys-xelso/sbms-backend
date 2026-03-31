@@ -6,56 +6,61 @@ export declare class UserResolver {
     me(user: {
         id: string;
     }): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
         email: string;
         firstName: string;
         lastName: string | null;
-        id: string;
         hashedPassword: string;
+        hashedRefreshToken: string | null;
         role: import(".prisma/client").$Enums.UserRole;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     user(id: string): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
         email: string;
         firstName: string;
         lastName: string | null;
-        id: string;
         hashedPassword: string;
+        hashedRefreshToken: string | null;
         role: import(".prisma/client").$Enums.UserRole;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     users(skip?: number, take?: number): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
         email: string;
         firstName: string;
         lastName: string | null;
-        id: string;
         hashedPassword: string;
+        hashedRefreshToken: string | null;
         role: import(".prisma/client").$Enums.UserRole;
-        createdAt: Date;
-        updatedAt: Date;
     }[]>;
     updateProfile(user: {
         id: string;
     }, firstName?: string, lastName?: string): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
         email: string;
         firstName: string;
         lastName: string | null;
-        id: string;
         hashedPassword: string;
+        hashedRefreshToken: string | null;
         role: import(".prisma/client").$Enums.UserRole;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     updateUser(id: string, role?: UserRole, firstName?: string, lastName?: string): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
         email: string;
         firstName: string;
         lastName: string | null;
-        id: string;
         hashedPassword: string;
+        hashedRefreshToken: string | null;
         role: import(".prisma/client").$Enums.UserRole;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     deleteUser(id: string): Promise<boolean>;
 }

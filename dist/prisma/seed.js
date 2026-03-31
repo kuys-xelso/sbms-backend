@@ -54,7 +54,7 @@ async function main() {
             firstName: 'Admin',
             lastName: 'User',
             hashedPassword: password,
-            role: 'ADMIN',
+            role: client_1.UserRole.ADMIN,
             profile: {
                 create: {
                     departmentId: department.id,

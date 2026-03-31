@@ -4,16 +4,16 @@ export declare class DepartmentResolver {
     constructor(departmentService: DepartmentService);
     departments(): Promise<{
         id: string;
-        createdAt: Date;
-        updatedAt: Date;
         name: string;
         description: string | null;
+        createdAt: Date;
+        updatedAt: Date;
     }[]>;
     createDepartment(name: string, description?: string): Promise<{
         id: string;
-        createdAt: Date;
-        updatedAt: Date;
         name: string;
         description: string | null;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
 }

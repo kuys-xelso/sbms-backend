@@ -14,6 +14,7 @@ CREATE TABLE "public"."users" (
     "firstName" TEXT NOT NULL,
     "lastName" TEXT,
     "hashed_password" TEXT NOT NULL,
+    "hashed_refresh_token" TEXT,
     "role" "public"."UserRole" NOT NULL DEFAULT 'USER',
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,

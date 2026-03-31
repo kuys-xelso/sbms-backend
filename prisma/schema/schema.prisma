@@ -29,7 +29,8 @@ model User {
   firstName String
   lastName  String?
 
-  hashedPassword String @map("hashed_password")
+  hashedPassword     String  @map("hashed_password")
+  hashedRefreshToken String? @map("hashed_refresh_token")
 
   role UserRole @default(USER)
 

@@ -28,8 +28,11 @@ type Mutation {
   """Delete user (admin only)"""
   deleteUser(id: String!): Boolean!
 
-  """Get new access token using refresh token"""
-  refreshAccessToken(refreshToken: String!): String!
+  """Logout current user and invalidate refresh token"""
+  logout: Boolean!
+
+  """Rotate tokens using refresh token"""
+  refreshAccessToken(refreshToken: String!): AuthEntity!
 
   """Login with email and password"""
   signin(input: SignInInput!): AuthEntity!

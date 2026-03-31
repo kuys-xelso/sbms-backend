@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserRole } from '@prisma/client';
+import { User, UserRole } from '@prisma/client';
 import * as argon2 from 'argon2';
 import { PrismaService } from '../prisma/prisma.service';
 import { SignInInput } from './dto/signin.input';
@@ -38,7 +38,8 @@ export class AuthService {
       },
     });
 
-    const { accessToken, refreshToken } = await this.generateTokens(user.id);
+    const { accessToken, refreshToken } = await this.generateTokens(user);
+    await this.storeRefreshToken(user.id, refreshToken);
 
     return {
       accessToken,
@@ -65,7 +66,8 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    const { accessToken, refreshToken } = await this.generateTokens(user.id);
+    const { accessToken, refreshToken } = await this.generateTokens(user);
+    await this.storeRefreshToken(user.id, refreshToken);
 
     return {
       accessToken,
@@ -86,43 +88,55 @@ export class AuthService {
 
   async refreshAccessToken(refreshToken: string) {
     try {
-      const decoded = this.jwt.verify<{ sub: string }>(refreshToken, {
+      const decoded = this.jwt.verify<{ sub: string; type?: string }>(refreshToken, {
         secret: this.getRefreshSecret(),
       });
+
+      if (decoded.type !== 'refresh') {
+        throw new UnauthorizedException('Invalid refresh token');
+      }
 
       const user = await this.prisma.user.findUnique({
         where: { id: decoded.sub },
       });
 
-      if (!user) {
+      if (!user || !user.hashedRefreshToken) {
         throw new UnauthorizedException('User not found');
       }
 
-      return this.jwt.sign(
-        {
-          sub: user.id,
-          email: user.email,
-          role: user.role,
-        },
-        {
-          secret: process.env.JWT_SECRET,
-          expiresIn: process.env.JWT_EXPIRATION || '1h',
-        },
+      const isRefreshTokenValid = await argon2.verify(
+        user.hashedRefreshToken,
+        refreshToken,
       );
+
+      if (!isRefreshTokenValid) {
+        throw new UnauthorizedException('Invalid refresh token');
+      }
+
+      const tokens = await this.generateTokens(user);
+      await this.storeRefreshToken(user.id, tokens.refreshToken);
+
+      return {
+        ...tokens,
+        user,
+      };
     } catch {
       throw new UnauthorizedException('Invalid refresh token');
     }
   }
 
-  private async generateTokens(userId: string) {
-    const user = await this.prisma.user.findUnique({
+  async logout(userId: string) {
+    await this.prisma.user.update({
       where: { id: userId },
+      data: {
+        hashedRefreshToken: null,
+      },
     });
 
-    if (!user) {
-      throw new UnauthorizedException('User not found');
-    }
+    return true;
+  }
 
+  private async generateTokens(user: User) {
     const accessToken = this.jwt.sign(
       {
         sub: user.id,
@@ -147,6 +161,17 @@ export class AuthService {
     );
 
     return { accessToken, refreshToken };
+  }
+
+  private async storeRefreshToken(userId: string, refreshToken: string) {
+    const hashedRefreshToken = await argon2.hash(refreshToken);
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        hashedRefreshToken,
+      },
+    });
   }
 
   private getRefreshSecret() {

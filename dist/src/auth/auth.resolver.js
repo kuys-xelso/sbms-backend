@@ -18,6 +18,9 @@ const auth_service_1 = require("./auth.service");
 const signin_input_1 = require("./dto/signin.input");
 const signup_input_1 = require("./dto/signup.input");
 const auth_entity_1 = require("./entities/auth.entity");
+const common_1 = require("@nestjs/common");
+const access_token_guard_1 = require("./guards/access-token.guard");
+const current_user_decorator_1 = require("./decorators/current-user.decorator");
 let AuthResolver = class AuthResolver {
     authService;
     constructor(authService) {
@@ -31,6 +34,9 @@ let AuthResolver = class AuthResolver {
     }
     async refreshAccessToken(refreshToken) {
         return this.authService.refreshAccessToken(refreshToken);
+    }
+    async logout(user) {
+        return this.authService.logout(user.id);
     }
 };
 exports.AuthResolver = AuthResolver;
@@ -53,14 +59,24 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthResolver.prototype, "signin", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => String, {
-        description: 'Get new access token using refresh token',
+    (0, graphql_1.Mutation)(() => auth_entity_1.AuthEntity, {
+        description: 'Rotate tokens using refresh token',
     }),
     __param(0, (0, graphql_1.Args)('refreshToken')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], AuthResolver.prototype, "refreshAccessToken", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => Boolean, {
+        description: 'Logout current user and invalidate refresh token',
+    }),
+    (0, common_1.UseGuards)(access_token_guard_1.AccessTokenGuard),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthResolver.prototype, "logout", null);
 exports.AuthResolver = AuthResolver = __decorate([
     (0, graphql_1.Resolver)(),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

@@ -1,9 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, UserRole } from '@prisma/client';
 import * as argon2 from 'argon2';
 
-// Cast temporarily because the checked-in Prisma client types won't update
-// until `prisma generate` succeeds locally after the schema change.
-const prisma = new PrismaClient() as any;
+const prisma = new PrismaClient();
 
 async function main() {
   const password = await argon2.hash('password');
@@ -24,7 +22,7 @@ async function main() {
       firstName: 'Admin',
       lastName: 'User',
       hashedPassword: password,
-      role: 'ADMIN',
+      role: UserRole.ADMIN,
       profile: {
         create: {
           departmentId: department.id,
