@@ -1,35 +1,32 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { DepartmentService } from './department.service';
+import { UseGuards } from '@nestjs/common';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { AccessTokenGuard } from '../auth/guards/access-token.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
 import { Department } from './entities/department.entity';
-import { CreateDepartmentInput } from './dto/create-department.input';
-import { UpdateDepartmentInput } from './dto/update-department.input';
+import { DepartmentService } from './department.service';
 
 @Resolver(() => Department)
 export class DepartmentResolver {
   constructor(private readonly departmentService: DepartmentService) {}
 
-  @Mutation(() => Department)
-  createDepartment(@Args('createDepartmentInput') createDepartmentInput: CreateDepartmentInput) {
-    return this.departmentService.create(createDepartmentInput);
+  @Query(() => [Department], {
+    description: 'List departments',
+  })
+  @UseGuards(AccessTokenGuard)
+  async departments() {
+    return this.departmentService.listDepartments();
   }
 
-  @Query(() => [Department], { name: 'department' })
-  findAll() {
-    return this.departmentService.findAll();
-  }
-
-  @Query(() => Department, { name: 'department' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.departmentService.findOne(id);
-  }
-
-  @Mutation(() => Department)
-  updateDepartment(@Args('updateDepartmentInput') updateDepartmentInput: UpdateDepartmentInput) {
-    return this.departmentService.update(updateDepartmentInput.id, updateDepartmentInput);
-  }
-
-  @Mutation(() => Department)
-  removeDepartment(@Args('id', { type: () => Int }) id: number) {
-    return this.departmentService.remove(id);
+  @Mutation(() => Department, {
+    description: 'Create department (admin only)',
+  })
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @Roles('ADMIN')
+  async createDepartment(
+    @Args('name') name: string,
+    @Args('description', { nullable: true }) description?: string,
+  ) {
+    return this.departmentService.createDepartment(name, description);
   }
 }

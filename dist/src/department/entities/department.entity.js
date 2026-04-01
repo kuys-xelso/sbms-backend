@@ -9,28 +9,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthEntity = void 0;
+exports.Department = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const user_entity_1 = require("../../user/entities/user.entity");
-let AuthEntity = class AuthEntity {
-    accessToken;
-    refreshToken;
-    user;
+let Department = class Department {
+    id;
+    name;
+    description;
+    createdAt;
+    updatedAt;
 };
-exports.AuthEntity = AuthEntity;
+exports.Department = Department;
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], AuthEntity.prototype, "accessToken", void 0);
+], Department.prototype, "id", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], AuthEntity.prototype, "refreshToken", void 0);
+], Department.prototype, "name", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => user_entity_1.User),
-    __metadata("design:type", user_entity_1.User)
-], AuthEntity.prototype, "user", void 0);
-exports.AuthEntity = AuthEntity = __decorate([
+    (0, graphql_1.Field)(() => String, { nullable: true }),
+    __metadata("design:type", Object)
+], Department.prototype, "description", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => Date),
+    __metadata("design:type", Date)
+], Department.prototype, "createdAt", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => Date),
+    __metadata("design:type", Date)
+], Department.prototype, "updatedAt", void 0);
+exports.Department = Department = __decorate([
     (0, graphql_1.ObjectType)()
-], AuthEntity);
-//# sourceMappingURL=auth.entity.js.map
+], Department);
+//# sourceMappingURL=department.entity.js.map

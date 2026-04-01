@@ -12,14 +12,13 @@ const graphql_1 = require("@nestjs/graphql");
 const apollo_1 = require("@nestjs/apollo");
 const default_1 = require("@apollo/server/plugin/landingPage/default");
 const app_controller_1 = require("./app.controller");
-const app_service_1 = require("./app.service");
 const app_resolver_1 = require("./app.resolver");
 const prisma_module_1 = require("./prisma/prisma.module");
 const path_1 = require("path");
 const config_1 = require("@nestjs/config");
 const auth_module_1 = require("./auth/auth.module");
-const user_module_1 = require("./global/user/user.module");
-const department_module_1 = require("./global/department/department.module");
+const user_module_1 = require("./user/user.module");
+const department_module_1 = require("./department/department.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -42,7 +41,7 @@ exports.AppModule = AppModule = __decorate([
             department_module_1.DepartmentModule,
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService, app_resolver_1.AppResolver],
+        providers: [app_resolver_1.AppResolver],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

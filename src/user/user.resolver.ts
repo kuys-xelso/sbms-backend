@@ -1,35 +1,84 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { UserService } from './user.service';
+import { UseGuards } from '@nestjs/common';
+import { UserRole } from '@prisma/client';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { AccessTokenGuard } from '../auth/guards/access-token.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
 import { User } from './entities/user.entity';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import { UserService } from './user.service';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @Mutation(() => User)
-  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return this.userService.create(createUserInput);
+  @Query(() => User, {
+    description: 'Get current logged-in user',
+  })
+  @UseGuards(AccessTokenGuard)
+  async me(@CurrentUser() user: { id: string }) {
+    return this.userService.getUserById(user.id);
   }
 
-  @Query(() => [User], { name: 'users' })
-  findAll() {
-    return this.userService.findAll();
+  @Query(() => User, {
+    description: 'Get user by ID',
+    nullable: true,
+  })
+  async user(@Args('id') id: string) {
+    return this.userService.getUserById(id);
   }
 
-  @Query(() => User, { name: 'user' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.findOne(id);
+  @Query(() => [User], {
+    description: 'List all users (admin only)',
+  })
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @Roles('ADMIN')
+  async users(
+    @Args('skip', { type: () => Int, nullable: true }) skip = 0,
+    @Args('take', { type: () => Int, nullable: true }) take = 10,
+  ) {
+    return this.userService.listUsers({ skip, take });
   }
 
-  @Mutation(() => User)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.userService.update(updateUserInput.id, updateUserInput);
+  @Mutation(() => User, {
+    description: 'Update current user profile',
+  })
+  @UseGuards(AccessTokenGuard)
+  async updateProfile(
+    @CurrentUser() user: { id: string },
+    @Args('firstName', { nullable: true }) firstName?: string,
+    @Args('lastName', { nullable: true }) lastName?: string,
+  ) {
+    return this.userService.updateUser(user.id, {
+      firstName,
+      lastName,
+    });
   }
 
-  @Mutation(() => User)
-  removeUser(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.remove(id);
+  @Mutation(() => User, {
+    description: 'Update user (admin only)',
+  })
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @Roles('ADMIN')
+  async updateUser(
+    @Args('id') id: string,
+    @Args('role', { type: () => UserRole, nullable: true }) role?: UserRole,
+    @Args('firstName', { nullable: true }) firstName?: string,
+    @Args('lastName', { nullable: true }) lastName?: string,
+  ) {
+    return this.userService.updateUser(id, {
+      firstName,
+      lastName,
+      role,
+    });
+  }
+
+  @Mutation(() => Boolean, {
+    description: 'Delete user (admin only)',
+  })
+  @UseGuards(AccessTokenGuard, RolesGuard)
+  @Roles('ADMIN')
+  async deleteUser(@Args('id') id: string) {
+    return this.userService.deleteUser(id);
   }
 }

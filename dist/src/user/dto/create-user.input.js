@@ -9,21 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppController = void 0;
-const common_1 = require("@nestjs/common");
-let AppController = class AppController {
-    getHello() {
-        return 'Hello World!';
-    }
+exports.CreateUserInput = void 0;
+const graphql_1 = require("@nestjs/graphql");
+let CreateUserInput = class CreateUserInput {
+    exampleField;
 };
-exports.AppController = AppController;
+exports.CreateUserInput = CreateUserInput;
 __decorate([
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", String)
-], AppController.prototype, "getHello", null);
-exports.AppController = AppController = __decorate([
-    (0, common_1.Controller)()
-], AppController);
-//# sourceMappingURL=app.controller.js.map
+    (0, graphql_1.Field)(() => graphql_1.Int, { description: 'Example field (placeholder)' }),
+    __metadata("design:type", Number)
+], CreateUserInput.prototype, "exampleField", void 0);
+exports.CreateUserInput = CreateUserInput = __decorate([
+    (0, graphql_1.InputType)()
+], CreateUserInput);
+//# sourceMappingURL=create-user.input.js.map

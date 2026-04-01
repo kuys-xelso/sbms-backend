@@ -3,14 +3,13 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AppResolver } from './app.resolver';
 import { PrismaModule } from './prisma/prisma.module';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { UserModule } from './global/user/user.module';
-import { DepartmentModule } from './global/department/department.module';
+import { UserModule } from './user/user.module';
+import { DepartmentModule } from './department/department.module';
 
 @Module({
   imports: [
@@ -30,6 +29,6 @@ import { DepartmentModule } from './global/department/department.module';
     DepartmentModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AppResolver],
+  providers: [AppResolver],
 })
 export class AppModule {}

@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { UserEntity } from '../../global/user/entities/user.entity';
+import { User } from '../../user/entities/user.entity';
 
 @ObjectType()
 export class AuthEntity {
@@ -9,6 +9,6 @@ export class AuthEntity {
   @Field()
   refreshToken: string;
 
-  @Field(() => UserEntity)
-  user: UserEntity;
+  @Field(() => User)
+  user: User;
 }
